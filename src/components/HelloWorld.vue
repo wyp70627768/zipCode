@@ -9,11 +9,11 @@
               <div class="row">
                 <div class="col-md-6">
                   <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
-                  <span class="city-span">{{startingZip}}</span>
+                  <span class="city-span">{{startingCity}}</span>
                 </div>
                 <div class="col-md-6">
                   <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
-                  <span class="city-span">{{endingZip}}</span>
+                  <span class="city-span">{{endingCity}}</span>
                 </div>
               </div>
               <div class="row">
@@ -31,14 +31,33 @@
 <script>
   export default {
     name: 'app',
-  data () {
-    return {
-      startingZip: '',
-      startingCity: '',
-      endingZip: '',
-      endingCity: ''
+    data () {
+      return {
+        startingZip: '',
+        startingCity: '',
+        endingZip: '',
+        endingCity: ''
+      }
+    },
+    watch: {
+      startingZip: function () {
+        this.startingCity = ''
+        if (this.startingZip.length === 5) {
+          this.lookupStartingZip()
+        }
+      },
+      endingZip: function () {
+        this.endingCity = ''
+        if (this.endingZip.length === 5) {
+          this.lookupEndingZip()
+        }
+      }
+    },
+    methods: {
+      lookupStartingZip: _.debounce(function () {
+        this.startingCity = 'Searching....'
+      }, 500)
     }
-  }
   }
 </script>
 
