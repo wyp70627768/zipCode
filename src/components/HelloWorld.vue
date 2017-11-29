@@ -8,12 +8,12 @@
               <hr />
               <div class="row">
                 <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Starting Zip">
-                  <span class="city-span"></span>
+                  <input type="text" class="form-control" placeholder="Starting Zip" v-model="startingZip">
+                  <span class="city-span">{{startingZip}}</span>
                 </div>
                 <div class="col-md-6">
-                  <input type="text" class="form-control" placeholder="Ending Zip">
-                  <span class="city-span"></span>
+                  <input type="text" class="form-control" placeholder="Ending Zip" v-model="endingZip">
+                  <span class="city-span">{{endingZip}}</span>
                 </div>
               </div>
               <div class="row">
@@ -30,9 +30,15 @@
 
 <script>
   export default {
-    data: function () {
-      return 'Hello World'
+    name: 'app',
+  data () {
+    return {
+      startingZip: '',
+      startingCity: '',
+      endingZip: '',
+      endingCity: ''
     }
+  }
   }
 </script>
 
