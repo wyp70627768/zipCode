@@ -15,6 +15,10 @@ Vue.use(VueAxios, axios)
 Vue.use(VueLodash, lodash)
 Vue.use(BootstrapVue)
 
+// to assist with any data manipulation [global usage]
+
+window._ = require('lodash')
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

@@ -29,36 +29,64 @@
 </template>
 
 <script>
-  export default {
-    name: 'app',
-    data () {
-      return {
-        startingZip: '',
-        startingCity: '',
-        endingZip: '',
-        endingCity: ''
-      }
-    },
-    watch: {
-      startingZip: function () {
-        this.startingCity = ''
-        if (this.startingZip.length === 5) {
-          this.lookupStartingZip()
-        }
-      },
-      endingZip: function () {
-        this.endingCity = ''
-        if (this.endingZip.length === 5) {
-          this.lookupEndingZip()
-        }
-      }
-    },
-    methods: {
-      lookupStartingZip: _.debounce(function () {
-        this.startingCity = 'Searching....'
-      }, 500)
+import axios from 'axios'
+import _ from 'lodash'
+
+export default {
+  name: 'app',
+  data () {
+    return {
+      startingZip: '',
+      startingCity: '',
+      endingZip: '',
+      endingCity: ''
     }
+  },
+  watch: {
+    startingZip: function () {
+      this.startingCity = ''
+      if (this.startingZip.length === 5) {
+        this.lookupStartingZip()
+      }
+    },
+    endingZip: function () {
+      this.endingCity = ''
+      if (this.endingZip.length === 5) {
+        this.lookupEndingZip()
+      }
+    }
+  },
+  methods: {
+    lookupStartingZip: _.debounce(function () {
+      var app = this
+      app.startingCity = 'Searching...'
+      axios.get('http://ziptasticapi.com/' + app.startingZip)
+        .then(function (response) {
+          app.startingCity = response.data.city + ', ' + response.data.state
+        })
+        .catch(function (err) {
+          if (err) {
+            console.log(err.stack)
+          }
+          app.startingCity = 'Invalid Zipcode'
+        })
+    }, 500),
+    lookupEndingZip: _.debounce(function () {
+      var app = this
+      app.endingCity = 'Searching...'
+      axios.get('http://ziptasticapi.com/' + app.endingZip)
+      .then(function (response) {
+        app.endingCity = response.data.city + ', ' + response.data.state
+      })
+      .catch(function (err) {
+        if (err) {
+          console.log(err.stack)
+        }
+        app.endingCity = 'Invalid Zipcode'
+      })
+    }, 500)
   }
+}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
